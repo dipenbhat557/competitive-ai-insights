@@ -19,7 +19,7 @@ export default function ChatWindow({ messages, onSend, isLoading }: Props) {
   }, [messages])
 
   return (
-    <div className="card flex h-[600px] flex-col p-0">
+    <div className="card flex h-[calc(100vh-16rem)] min-h-[400px] max-h-[600px] flex-col p-0 sm:max-h-none sm:h-[600px]">
       <div className="border-b border-white/10 px-6 py-4">
         <p className="section-label">AI Copilot</p>
         <h3 className="mt-1 text-lg font-semibold text-white">Chat with your mentor</h3>

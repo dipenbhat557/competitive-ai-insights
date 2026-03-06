@@ -65,20 +65,20 @@ export default function DashboardPage() {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="flex items-end justify-between">
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
         <div>
           <p className="section-label">Dashboard</p>
-          <h1 className="mt-1 text-3xl font-semibold text-white">Welcome, {user?.full_name || 'Coder'}</h1>
+          <h1 className="mt-1 text-2xl font-semibold text-white sm:text-3xl">Welcome, {user?.full_name || 'Coder'}</h1>
         </div>
         {profiles.length > 0 && (
-          <Button onClick={() => scrapeAll()} disabled={isLoading} variant="secondary" className="text-sm">
+          <Button onClick={() => scrapeAll()} disabled={isLoading} variant="secondary" className="w-full text-sm sm:w-auto">
             {isLoading ? 'Syncing...' : 'Sync Data'}
           </Button>
         )}
       </div>
 
       {/* Stat Cards */}
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
         <StatCard label="Total Solved" value={totalSolved.toLocaleString()} subtext="Across all platforms" />
         <StatCard label="Avg Rating" value={avgRating ? Math.round(avgRating).toString() : '—'} subtext={avgRating ? 'Contest rating' : 'No contests yet'} />
         <StatCard label="Topics Covered" value={topicCount.toString()} subtext="Unique categories" />
@@ -87,15 +87,13 @@ export default function DashboardPage() {
 
       {/* Linked Platforms Bar */}
       {profiles.length > 0 && (
-        <div className="flex items-center gap-3 rounded-xl border border-white/5 bg-slate-900/30 px-4 py-3">
+        <div className="flex flex-wrap items-center gap-2 rounded-xl border border-white/5 bg-slate-900/30 px-3 py-2.5 sm:gap-3 sm:px-4 sm:py-3">
           <span className="text-xs uppercase tracking-widest text-slate-500">Linked</span>
-          <div className="flex flex-wrap gap-2">
-            {profiles.map(p => (
-              <PlatformBadge key={p.id} platform={p.platform} username={p.platform_username} />
-            ))}
-          </div>
+          {profiles.map(p => (
+            <PlatformBadge key={p.id} platform={p.platform} username={p.platform_username} />
+          ))}
           <button onClick={() => router.push('/dashboard/settings')} className="ml-auto text-xs text-slate-400 hover:text-white transition">
-            + Add Platform
+            + Add
           </button>
         </div>
       )}

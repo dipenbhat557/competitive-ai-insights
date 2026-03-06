@@ -8,24 +8,34 @@ import Card from '@/components/ui/Card'
 
 export default function ChatPage() {
   const { sessions, activeSession, messages, isLoading, createSession, selectSession, sendMessage } = useChat()
-  const [showSessions, setShowSessions] = useState(true)
+  const [showSessions, setShowSessions] = useState(false)
 
   return (
-    <div className="space-y-6">
-      <div>
-        <p className="section-label">AI Mentor</p>
-        <h1 className="mt-1 text-3xl font-semibold text-white">Chat with Your Mentor</h1>
+    <div className="space-y-4 sm:space-y-6">
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+        <div>
+          <p className="section-label">AI Mentor</p>
+          <h1 className="mt-1 text-2xl font-semibold text-white sm:text-3xl">Chat with Your Mentor</h1>
+        </div>
+        <div className="flex gap-2">
+          <Button variant="secondary" onClick={() => setShowSessions(!showSessions)} className="text-sm lg:hidden">
+            {showSessions ? 'Hide Sessions' : 'Sessions'}
+          </Button>
+          <Button onClick={() => createSession()} className="text-sm">New Chat</Button>
+        </div>
       </div>
 
       <div className="flex gap-6">
-        {showSessions && (
-          <div className="w-64 shrink-0 space-y-3">
-            <Button onClick={() => createSession()} className="w-full">New Chat</Button>
-            <div className="space-y-2">
-              {sessions.map(s => (
+        {/* Sessions panel — always visible on lg, toggle on mobile */}
+        <div className={`${showSessions ? 'block' : 'hidden'} w-full shrink-0 space-y-3 sm:w-64 lg:block`}>
+          <div className="space-y-2">
+            {sessions.length === 0 ? (
+              <p className="text-sm text-slate-500">No sessions yet. Start a new chat.</p>
+            ) : (
+              sessions.map(s => (
                 <button
                   key={s.id}
-                  onClick={() => selectSession(s.id)}
+                  onClick={() => { selectSession(s.id); setShowSessions(false) }}
                   className={`w-full rounded-xl border p-3 text-left text-sm transition ${
                     activeSession === s.id
                       ? 'border-emerald-500/30 bg-emerald-500/10 text-white'
@@ -35,15 +45,13 @@ export default function ChatPage() {
                   {s.title || 'Untitled Chat'}
                   <p className="mt-1 text-xs text-slate-500">{new Date(s.created_at).toLocaleDateString()}</p>
                 </button>
-              ))}
-            </div>
+              ))
+            )}
           </div>
-        )}
+        </div>
 
-        <div className="flex-1">
-          <button onClick={() => setShowSessions(!showSessions)} className="mb-3 text-xs text-slate-500 hover:text-slate-300 lg:hidden">
-            {showSessions ? 'Hide sessions' : 'Show sessions'}
-          </button>
+        {/* Chat area — hide when sessions panel is open on mobile */}
+        <div className={`min-w-0 flex-1 ${showSessions ? 'hidden sm:block' : 'block'}`}>
           {activeSession ? (
             <ChatWindow messages={messages} onSend={sendMessage} isLoading={isLoading} />
           ) : (

@@ -1,7 +1,6 @@
 'use client'
 
 export default function ActivityHeatmap({ calendar }: { calendar: Record<string, number> }) {
-  // Build last 20 weeks of data
   const today = new Date()
   const weeks = 20
   const totalDays = weeks * 7
@@ -11,7 +10,6 @@ export default function ActivityHeatmap({ calendar }: { calendar: Record<string,
     const d = new Date(today)
     d.setDate(d.getDate() - i)
     const ts = Math.floor(d.getTime() / 1000).toString()
-    // LeetCode uses unix timestamps as keys
     const count = calendar[ts] || 0
     days.push({ date: d.toISOString().split('T')[0], count, dayOfWeek: d.getDay() })
   }
@@ -27,7 +25,6 @@ export default function ActivityHeatmap({ calendar }: { calendar: Record<string,
     return 'bg-emerald-400'
   }
 
-  // Group into weeks
   const weekGroups: typeof days[] = []
   for (let i = 0; i < days.length; i += 7) {
     weekGroups.push(days.slice(i, i + 7))
@@ -38,33 +35,35 @@ export default function ActivityHeatmap({ calendar }: { calendar: Record<string,
 
   return (
     <div className="card">
-      <div className="flex items-center justify-between">
-        <h3 className="text-lg font-semibold text-white">Activity</h3>
-        <div className="flex gap-4 text-xs text-slate-400">
+      <div className="flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between">
+        <h3 className="text-base font-semibold text-white sm:text-lg">Activity</h3>
+        <div className="flex gap-3 text-xs text-slate-400">
           <span><span className="font-medium text-white">{totalSubmissions}</span> submissions</span>
           <span><span className="font-medium text-white">{activeDays}</span> active days</span>
         </div>
       </div>
-      <div className="mt-4 flex gap-[3px] overflow-x-auto pb-1">
-        {weekGroups.map((week, wi) => (
-          <div key={wi} className="flex flex-col gap-[3px]">
-            {week.map((day, di) => (
-              <div
-                key={di}
-                className={`h-3 w-3 rounded-sm ${getColor(day.count)} transition-colors`}
-                title={`${day.date}: ${day.count} submission${day.count !== 1 ? 's' : ''}`}
-              />
-            ))}
-          </div>
-        ))}
+      <div className="mt-4 overflow-x-auto pb-1">
+        <div className="flex gap-[3px]" style={{ minWidth: 'max-content' }}>
+          {weekGroups.map((week, wi) => (
+            <div key={wi} className="flex flex-col gap-[3px]">
+              {week.map((day, di) => (
+                <div
+                  key={di}
+                  className={`h-2.5 w-2.5 rounded-sm sm:h-3 sm:w-3 ${getColor(day.count)} transition-colors`}
+                  title={`${day.date}: ${day.count} submission${day.count !== 1 ? 's' : ''}`}
+                />
+              ))}
+            </div>
+          ))}
+        </div>
       </div>
-      <div className="mt-2 flex items-center justify-end gap-1 text-xs text-slate-500">
+      <div className="mt-2 flex items-center justify-end gap-1 text-[10px] text-slate-500 sm:text-xs">
         <span>Less</span>
-        <div className="h-3 w-3 rounded-sm bg-slate-800/60" />
-        <div className="h-3 w-3 rounded-sm bg-emerald-900/60" />
-        <div className="h-3 w-3 rounded-sm bg-emerald-700/70" />
-        <div className="h-3 w-3 rounded-sm bg-emerald-500/80" />
-        <div className="h-3 w-3 rounded-sm bg-emerald-400" />
+        <div className="h-2.5 w-2.5 rounded-sm bg-slate-800/60 sm:h-3 sm:w-3" />
+        <div className="h-2.5 w-2.5 rounded-sm bg-emerald-900/60 sm:h-3 sm:w-3" />
+        <div className="h-2.5 w-2.5 rounded-sm bg-emerald-700/70 sm:h-3 sm:w-3" />
+        <div className="h-2.5 w-2.5 rounded-sm bg-emerald-500/80 sm:h-3 sm:w-3" />
+        <div className="h-2.5 w-2.5 rounded-sm bg-emerald-400 sm:h-3 sm:w-3" />
         <span>More</span>
       </div>
     </div>

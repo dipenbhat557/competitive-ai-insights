@@ -33,14 +33,14 @@ export default function LandingPage() {
   return (
     <div className="min-h-screen bg-slate-950">
       <Navbar />
-      <main className="mx-auto max-w-6xl px-4 py-16 sm:px-6 lg:px-8">
+      <main className="mx-auto max-w-6xl px-4 py-8 sm:py-16 sm:px-6 lg:px-8">
         <section className="card-lg bg-gradient-to-br from-slate-900/80 via-slate-900 to-slate-950/60 shadow-2xl shadow-emerald-500/10">
           <div className="space-y-4">
             <p className="section-label">Multi-Platform Competitive Programming AI</p>
-            <h1 className="text-4xl font-semibold leading-tight text-white sm:text-5xl">
+            <h1 className="text-2xl font-semibold leading-tight text-white sm:text-4xl lg:text-5xl">
               Decode your coding journey with AI-powered clarity.
             </h1>
-            <p className="text-lg text-slate-300">
+            <p className="text-base text-slate-300 sm:text-lg">
               Connect your profiles across LeetCode, Codeforces, CodeChef, and HackerRank. Get unified analytics, AI insights, and a personal mentor.
             </p>
           </div>
@@ -51,7 +51,7 @@ export default function LandingPage() {
             ))}
           </div>
 
-          <form className="mt-6 flex flex-col gap-4 rounded-2xl border border-white/10 bg-white/5 p-4 sm:flex-row" onSubmit={handleTrial}>
+          <form className="mt-6 flex flex-col gap-3 rounded-2xl border border-white/10 bg-white/5 p-3 sm:flex-row sm:gap-4 sm:p-4" onSubmit={handleTrial}>
             <select
               value={platform}
               onChange={(e) => setPlatform(e.target.value)}
@@ -68,12 +68,12 @@ export default function LandingPage() {
                 placeholder={`Enter your ${PLATFORMS.find(p => p.id === platform)?.label} username`}
               />
             </div>
-            <Button type="submit" className="self-end">
+            <Button type="submit" className="w-full sm:w-auto">
               Try Free Insights
             </Button>
           </form>
 
-          <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="mt-6 grid grid-cols-2 gap-3 sm:mt-10 sm:gap-4 lg:grid-cols-4">
             <StatCard label="Platforms" value="4" subtext="LeetCode, Codeforces, CodeChef, HackerRank" />
             <StatCard label="AI Insights" value="Gemini" subtext="Powered by Google Gemini 2.0" />
             <StatCard label="Chat Mentor" value="24/7" subtext="Context-aware AI guidance" />
@@ -81,7 +81,7 @@ export default function LandingPage() {
           </div>
         </section>
 
-        <section className="mt-16 grid gap-8 md:grid-cols-3">
+        <section className="mt-10 grid gap-4 sm:mt-16 sm:gap-8 md:grid-cols-3">
           <FeatureCard
             title="Multi-Platform Aggregation"
             description="Connect all your competitive coding profiles. We scrape and unify your data across LeetCode, Codeforces, CodeChef, and HackerRank into one dashboard."
@@ -96,12 +96,12 @@ export default function LandingPage() {
           />
         </section>
 
-        <section className="mt-16">
+        <section className="mt-10 sm:mt-16">
           <div className="text-center">
             <p className="section-label">Supported Platforms</p>
-            <h2 className="mt-2 text-3xl font-semibold text-white">One dashboard for all your coding profiles</h2>
+            <h2 className="mt-2 text-xl font-semibold text-white sm:text-3xl">One dashboard for all your coding profiles</h2>
           </div>
-          <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="mt-6 grid grid-cols-2 gap-3 sm:mt-8 sm:gap-6 lg:grid-cols-4">
             <PlatformCard
               name="LeetCode"
               description="Problems solved, difficulty breakdown, contest rating, topic stats, and submission heatmap"
@@ -125,11 +125,11 @@ export default function LandingPage() {
           </div>
         </section>
 
-        <section className="mt-16 text-center">
+        <section className="mt-10 text-center sm:mt-16">
           {user ? (
             <>
               <p className="section-label">You&apos;re all set</p>
-              <h2 className="mt-2 text-3xl font-semibold text-white">Welcome back, {user.full_name}</h2>
+              <h2 className="mt-2 text-xl font-semibold text-white sm:text-3xl">Welcome back, {user.full_name}</h2>
               <p className="mt-2 text-slate-400">Head to your dashboard to view your stats and insights</p>
               <div className="mt-6 flex justify-center">
                 <Button onClick={() => router.push('/dashboard')}>Go to Dashboard</Button>
@@ -138,7 +138,7 @@ export default function LandingPage() {
           ) : (
             <>
               <p className="section-label">Ready to level up?</p>
-              <h2 className="mt-2 text-3xl font-semibold text-white">Create your free account</h2>
+              <h2 className="mt-2 text-xl font-semibold text-white sm:text-3xl">Create your free account</h2>
               <p className="mt-2 text-slate-400">Connect all your competitive programming profiles in one place</p>
               <div className="mt-6 flex justify-center gap-4">
                 <Button onClick={() => router.push('/login')}>Sign In</Button>
@@ -166,9 +166,9 @@ function FeatureCard({ title, description }: { title: string; description: strin
 
 function PlatformCard({ name, description, color }: { name: string; description: string; color: string }) {
   return (
-    <div className={`rounded-2xl border p-6 ${color}`}>
-      <h3 className="text-lg font-semibold text-white">{name}</h3>
-      <p className="mt-2 text-sm text-slate-400">{description}</p>
+    <div className={`rounded-xl border p-4 sm:rounded-2xl sm:p-6 ${color}`}>
+      <h3 className="text-base font-semibold text-white sm:text-lg">{name}</h3>
+      <p className="mt-1 text-xs text-slate-400 sm:mt-2 sm:text-sm">{description}</p>
     </div>
   )
 }

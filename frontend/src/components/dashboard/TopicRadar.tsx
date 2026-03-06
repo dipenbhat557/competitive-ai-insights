@@ -23,9 +23,9 @@ export default function TopicRadar({ topics }: { topics: Record<string, number> 
 
   return (
     <div className="card">
-      <h3 className="text-lg font-semibold text-white">Skill Radar</h3>
+      <h3 className="text-base font-semibold text-white sm:text-lg">Skill Radar</h3>
       <div className="mt-2 flex items-center justify-center">
-        <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`}>
+        <svg viewBox={`0 0 ${size} ${size}`} className="h-auto w-full max-w-[280px]">
           {[0.25, 0.5, 0.75, 1].map(scale => (
             <polygon
               key={scale}
@@ -39,7 +39,6 @@ export default function TopicRadar({ topics }: { topics: Record<string, number> 
               strokeWidth="1"
             />
           ))}
-          {/* Axis lines */}
           {sorted.map((_, i) => {
             const angle = (Math.PI * 2 * i) / n - Math.PI / 2
             return (
@@ -54,16 +53,13 @@ export default function TopicRadar({ topics }: { topics: Record<string, number> 
             )
           })}
           <polygon points={polygon} fill="rgba(52,211,153,0.15)" stroke="rgb(52,211,153)" strokeWidth="2" />
-          {/* Dots */}
           {points.map((p, i) => (
             <circle key={i} cx={p.x} cy={p.y} r="3" fill="rgb(52,211,153)" />
           ))}
-          {/* Labels */}
           {sorted.map(([name], i) => {
             const angle = (Math.PI * 2 * i) / n - Math.PI / 2
             const lx = center + (radius + 24) * Math.cos(angle)
             const ly = center + (radius + 24) * Math.sin(angle)
-            // Truncate long names
             const display = name.length > 12 ? name.slice(0, 11) + '...' : name
             return (
               <text key={i} x={lx} y={ly} textAnchor="middle" dominantBaseline="middle" fill="#94a3b8" fontSize="10">

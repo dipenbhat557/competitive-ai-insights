@@ -9,19 +9,25 @@ import StrengthRadar from '@/components/insights/StrengthRadar'
 import RoadmapTimeline from '@/components/insights/RoadmapTimeline'
 
 export default function InsightsPage() {
-  const { insights, isLoading, generate } = useInsights()
+  const { insights, isLoading, error, generate } = useInsights()
 
   return (
     <div className="space-y-8">
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <div>
           <p className="section-label">Insights</p>
-          <h1 className="mt-1 text-3xl font-semibold text-white">AI Analysis</h1>
+          <h1 className="mt-1 text-2xl font-semibold text-white sm:text-3xl">AI Analysis</h1>
         </div>
-        <Button onClick={() => generate()} disabled={isLoading}>
+        <Button onClick={() => generate()} disabled={isLoading} className="w-full text-sm sm:w-auto">
           {isLoading ? 'Generating...' : 'Generate Insights'}
         </Button>
       </div>
+
+      {error && (
+        <div className="rounded-lg border border-red-500/20 bg-red-500/10 p-3 text-sm text-red-400">
+          {error}
+        </div>
+      )}
 
       {!insights ? (
         <Card className="py-12 text-center">

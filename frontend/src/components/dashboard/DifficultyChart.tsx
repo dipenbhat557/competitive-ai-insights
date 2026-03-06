@@ -13,8 +13,8 @@ export default function DifficultyChart({ data, total }: { data: DifficultyData;
     { label: 'Hard', count: data.hard, color: '#f87171', bg: 'bg-red-400' },
   ]
 
-  const size = 180
-  const strokeWidth = 20
+  const size = 160
+  const strokeWidth = 18
   const radius = (size - strokeWidth) / 2
   const circumference = 2 * Math.PI * radius
 
@@ -29,9 +29,9 @@ export default function DifficultyChart({ data, total }: { data: DifficultyData;
 
   return (
     <div className="card">
-      <h3 className="text-lg font-semibold text-white">Difficulty Breakdown</h3>
-      <div className="mt-4 flex items-center justify-center gap-8">
-        <div className="relative">
+      <h3 className="text-base font-semibold text-white sm:text-lg">Difficulty Breakdown</h3>
+      <div className="mt-4 flex flex-col items-center gap-4 sm:flex-row sm:justify-center sm:gap-8">
+        <div className="relative shrink-0">
           <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`} className="-rotate-90">
             <circle
               cx={size / 2} cy={size / 2} r={radius}
@@ -52,13 +52,13 @@ export default function DifficultyChart({ data, total }: { data: DifficultyData;
             ))}
           </svg>
           <div className="absolute inset-0 flex flex-col items-center justify-center">
-            <span className="text-3xl font-bold text-white">{total}</span>
+            <span className="text-2xl font-bold text-white sm:text-3xl">{total}</span>
             <span className="text-xs text-slate-400">solved</span>
           </div>
         </div>
-        <div className="space-y-3">
+        <div className="flex gap-6 sm:flex-col sm:gap-3">
           {segments.map((seg) => (
-            <div key={seg.label} className="flex items-center gap-3">
+            <div key={seg.label} className="flex items-center gap-2 sm:gap-3">
               <div className={`h-3 w-3 rounded-full ${seg.bg}`} />
               <div>
                 <p className="text-sm font-medium text-white">{seg.count}</p>

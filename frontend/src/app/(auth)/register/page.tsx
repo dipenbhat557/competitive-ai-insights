@@ -35,7 +35,7 @@ export default function RegisterPage() {
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-slate-950 px-4">
-      <Card className="w-full max-w-md p-8">
+      <Card className="w-full max-w-md p-5 sm:p-8">
         <h1 className="text-2xl font-semibold text-white">Create Account</h1>
         <p className="mt-2 text-sm text-slate-400">Join CodePulse AI and unlock your competitive coding potential</p>
 

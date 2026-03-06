@@ -6,7 +6,7 @@ from app.database import get_db
 from app.api.deps import get_current_user
 from app.models.user import User
 from app.models.insight import InsightReport
-from app.schemas.insight import GenerateInsightRequest, InsightResponse
+from app.schemas.insight import InsightResponse
 from app.services.insight_service import generate_insights
 
 router = APIRouter(prefix="/insights", tags=["insights"])
@@ -14,11 +14,11 @@ router = APIRouter(prefix="/insights", tags=["insights"])
 
 @router.post("/generate", response_model=InsightResponse)
 async def generate(
-    body: GenerateInsightRequest,
+    force: bool = False,
     current_user: User = Depends(get_current_user),
     db: AsyncSession = Depends(get_db),
 ):
-    return await generate_insights(current_user.id, db, force=body.force_regenerate or False)
+    return await generate_insights(current_user.id, db, force=force)
 
 
 @router.get("/latest", response_model=InsightResponse | None)

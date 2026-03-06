@@ -55,6 +55,8 @@ export function useChat() {
         { method: 'POST', body: JSON.stringify({ content }) }
       )
       setMessages(prev => [...prev.filter(m => m.id !== userMsg.id), data.user_message, data.assistant_message])
+      // Refresh sessions to pick up AI-generated title
+      fetchSessions()
     } catch {
       setMessages(prev => prev.filter(m => m.id !== userMsg.id))
     } finally {

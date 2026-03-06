@@ -24,7 +24,7 @@ export default function SettingsPage() {
     <div className="space-y-8">
       <div>
         <p className="section-label">Settings</p>
-        <h1 className="mt-1 text-3xl font-semibold text-white">Platform Connections</h1>
+        <h1 className="mt-1 text-2xl font-semibold text-white sm:text-3xl">Platform Connections</h1>
       </div>
 
       <Card>
