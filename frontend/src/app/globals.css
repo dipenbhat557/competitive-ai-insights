@@ -1,0 +1,30 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-slate-950 text-slate-50 antialiased;
+  }
+}
+
+@layer components {
+  .card {
+    @apply rounded-2xl border border-white/10 bg-slate-900/50 p-6;
+  }
+  .card-lg {
+    @apply rounded-3xl border border-white/10 bg-slate-900/50 p-8;
+  }
+  .btn-primary {
+    @apply rounded-xl bg-emerald-500 px-6 py-3 text-base font-semibold text-slate-950 transition hover:bg-emerald-400;
+  }
+  .btn-secondary {
+    @apply rounded-xl border border-white/10 bg-white/5 px-6 py-3 text-base font-semibold text-white transition hover:bg-white/10;
+  }
+  .input-field {
+    @apply w-full rounded-xl border border-white/10 bg-slate-900/60 px-4 py-3 text-base text-white outline-none ring-emerald-500/40 placeholder:text-slate-500 focus:ring-2;
+  }
+  .section-label {
+    @apply text-xs uppercase tracking-[0.3em] text-emerald-400;
+  }
+}
