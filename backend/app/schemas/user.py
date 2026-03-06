@@ -12,6 +12,7 @@ class UserResponse(BaseModel):
     email: str
     full_name: str
     role: str
+    avatar_url: Optional[str] = None
     created_at: datetime
 
 

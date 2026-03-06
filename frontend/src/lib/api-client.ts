@@ -12,13 +12,19 @@ export function getAccessToken(): string | null {
 
 async function refreshAccessToken(): Promise<string | null> {
   try {
+    const refreshToken = typeof window !== 'undefined' ? localStorage.getItem('refresh_token') : null
+    if (!refreshToken) return null
     const res = await fetch(`${API_URL}/api/v1/auth/refresh`, {
       method: 'POST',
-      credentials: 'include',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ refresh_token: refreshToken }),
     })
     if (!res.ok) return null
     const data = await res.json()
     accessToken = data.access_token
+    if (data.refresh_token && typeof window !== 'undefined') {
+      localStorage.setItem('refresh_token', data.refresh_token)
+    }
     return accessToken
   } catch {
     return null
@@ -34,6 +40,11 @@ export async function apiClient<T>(
     ...(options.headers as Record<string, string>),
   }
 
+  // If no access token in memory, try refreshing from stored refresh token first
+  if (!accessToken) {
+    await refreshAccessToken()
+  }
+
   if (accessToken) {
     headers['Authorization'] = `Bearer ${accessToken}`
   }
@@ -41,17 +52,16 @@ export async function apiClient<T>(
   let res = await fetch(`${API_URL}${path}`, {
     ...options,
     headers,
-    credentials: 'include',
   })
 
-  if (res.status === 401 && accessToken) {
+  // If 401, try refreshing and retry once
+  if (res.status === 401) {
     const newToken = await refreshAccessToken()
     if (newToken) {
       headers['Authorization'] = `Bearer ${newToken}`
       res = await fetch(`${API_URL}${path}`, {
         ...options,
         headers,
-        credentials: 'include',
       })
     }
   }

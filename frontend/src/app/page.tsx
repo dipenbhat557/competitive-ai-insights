@@ -8,6 +8,7 @@ import StatCard from '@/components/profile/StatCard'
 import PlatformBadge from '@/components/profile/PlatformBadge'
 import Button from '@/components/ui/Button'
 import Input from '@/components/ui/Input'
+import { useAuth } from '@/lib/hooks/useAuth'
 
 const PLATFORMS = [
   { id: 'leetcode', label: 'LeetCode', color: 'text-yellow-400' },
@@ -18,6 +19,7 @@ const PLATFORMS = [
 
 export default function LandingPage() {
   const router = useRouter()
+  const { user } = useAuth()
   const [platform, setPlatform] = useState('leetcode')
   const [username, setUsername] = useState('')
 
@@ -124,15 +126,28 @@ export default function LandingPage() {
         </section>
 
         <section className="mt-16 text-center">
-          <p className="section-label">Ready to level up?</p>
-          <h2 className="mt-2 text-3xl font-semibold text-white">Create your free account</h2>
-          <p className="mt-2 text-slate-400">Connect all your competitive programming profiles in one place</p>
-          <div className="mt-6 flex justify-center gap-4">
-            <Button onClick={() => router.push('/login')}>Sign In</Button>
-            <Button variant="secondary" onClick={() => router.push('/register')}>
-              Create Account
-            </Button>
-          </div>
+          {user ? (
+            <>
+              <p className="section-label">You&apos;re all set</p>
+              <h2 className="mt-2 text-3xl font-semibold text-white">Welcome back, {user.full_name}</h2>
+              <p className="mt-2 text-slate-400">Head to your dashboard to view your stats and insights</p>
+              <div className="mt-6 flex justify-center">
+                <Button onClick={() => router.push('/dashboard')}>Go to Dashboard</Button>
+              </div>
+            </>
+          ) : (
+            <>
+              <p className="section-label">Ready to level up?</p>
+              <h2 className="mt-2 text-3xl font-semibold text-white">Create your free account</h2>
+              <p className="mt-2 text-slate-400">Connect all your competitive programming profiles in one place</p>
+              <div className="mt-6 flex justify-center gap-4">
+                <Button onClick={() => router.push('/login')}>Sign In</Button>
+                <Button variant="secondary" onClick={() => router.push('/register')}>
+                  Create Account
+                </Button>
+              </div>
+            </>
+          )}
         </section>
       </main>
       <Footer />

@@ -27,6 +27,7 @@ class SnapshotResponse(BaseModel):
     contest_rating: Optional[float] = None
     topic_stats: dict[str, Any] = {}
     submission_calendar: dict[str, Any] = {}
+    raw_data: dict[str, Any] = {}
     scraped_at: datetime
 
 

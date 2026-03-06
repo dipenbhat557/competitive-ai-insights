@@ -3,6 +3,7 @@ export interface User {
   email: string
   full_name: string
   role: 'candidate' | 'recruiter' | 'admin'
+  avatar_url: string | null
   created_at: string
 }
 
@@ -19,6 +20,7 @@ export interface PlatformSnapshot {
   contest_rating: number | null
   topic_stats: Record<string, number>
   submission_calendar: Record<string, number>
+  raw_data: Record<string, unknown>
   scraped_at: string
 }
 

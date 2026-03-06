@@ -1,3 +1,4 @@
+from typing import Optional
 from uuid import UUID
 
 from fastapi import Depends, Header
@@ -11,11 +12,11 @@ from app.models.user import User
 
 
 async def get_current_user(
-    authorization: str = Header(...),
+    authorization: Optional[str] = Header(None),
     db: AsyncSession = Depends(get_db),
 ) -> User:
-    if not authorization.startswith("Bearer "):
-        raise UnauthorizedException("Invalid authorization header")
+    if not authorization or not authorization.startswith("Bearer "):
+        raise UnauthorizedException("Not authenticated")
 
     token = authorization.removeprefix("Bearer ")
     try:

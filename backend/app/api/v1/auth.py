@@ -1,12 +1,15 @@
-from fastapi import APIRouter, Depends
+from urllib.parse import urlencode
+
+from fastapi import APIRouter, Depends, Query
+from fastapi.responses import RedirectResponse
 from sqlalchemy.ext.asyncio import AsyncSession
 
+from app.config import settings
 from app.database import get_db
 from app.api.deps import get_current_user
 from app.models.user import User
 from app.schemas.auth import (
     LoginRequest,
-    OAuthCodeRequest,
     RefreshRequest,
     RegisterRequest,
     TokenResponse,
@@ -42,11 +45,62 @@ async def me(current_user: User = Depends(get_current_user)):
     return current_user
 
 
-@router.post("/oauth/google", response_model=TokenResponse)
-async def oauth_google(body: OAuthCodeRequest, db: AsyncSession = Depends(get_db)):
-    return await get_or_create_oauth_user(body.code, "google", db)
+# --- Google OAuth ---
+
+GOOGLE_AUTH_URL = "https://accounts.google.com/o/oauth2/v2/auth"
+GOOGLE_REDIRECT_URI = "http://localhost:8000/api/v1/auth/oauth/google/callback"
 
 
-@router.post("/oauth/github", response_model=TokenResponse)
-async def oauth_github(body: OAuthCodeRequest, db: AsyncSession = Depends(get_db)):
-    return await get_or_create_oauth_user(body.code, "github", db)
+@router.get("/oauth/google")
+async def oauth_google_redirect():
+    params = urlencode({
+        "client_id": settings.GOOGLE_CLIENT_ID,
+        "redirect_uri": GOOGLE_REDIRECT_URI,
+        "response_type": "code",
+        "scope": "openid email profile",
+        "access_type": "offline",
+        "prompt": "consent",
+    })
+    return RedirectResponse(f"{GOOGLE_AUTH_URL}?{params}")
+
+
+@router.get("/oauth/google/callback")
+async def oauth_google_callback(
+    code: str = Query(...),
+    db: AsyncSession = Depends(get_db),
+):
+    tokens = await get_or_create_oauth_user(code, "google", db)
+    params = urlencode({
+        "token": tokens.access_token,
+        "refresh_token": tokens.refresh_token,
+    })
+    return RedirectResponse(f"{settings.FRONTEND_URL}/oauth/callback?{params}")
+
+
+# --- GitHub OAuth ---
+
+GITHUB_AUTH_URL = "https://github.com/login/oauth/authorize"
+GITHUB_REDIRECT_URI = "http://localhost:8000/api/v1/auth/oauth/github/callback"
+
+
+@router.get("/oauth/github")
+async def oauth_github_redirect():
+    params = urlencode({
+        "client_id": settings.GITHUB_CLIENT_ID,
+        "redirect_uri": GITHUB_REDIRECT_URI,
+        "scope": "user:email",
+    })
+    return RedirectResponse(f"{GITHUB_AUTH_URL}?{params}")
+
+
+@router.get("/oauth/github/callback")
+async def oauth_github_callback(
+    code: str = Query(...),
+    db: AsyncSession = Depends(get_db),
+):
+    tokens = await get_or_create_oauth_user(code, "github", db)
+    params = urlencode({
+        "token": tokens.access_token,
+        "refresh_token": tokens.refresh_token,
+    })
+    return RedirectResponse(f"{settings.FRONTEND_URL}/oauth/callback?{params}")

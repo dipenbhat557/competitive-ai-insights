@@ -20,6 +20,7 @@ class User(Base):
         default="candidate",
         nullable=False,
     )
+    avatar_url = Column(String, nullable=True)
     is_active = Column(Boolean, default=True, nullable=False)
     created_at = Column(DateTime, default=datetime.utcnow, nullable=False)
     updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow, nullable=False)

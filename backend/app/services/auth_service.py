@@ -82,11 +82,13 @@ async def get_or_create_oauth_user(
         provider_uid = user_info.get("id", "")
         email = user_info.get("email", "")
         full_name = user_info.get("name", "")
+        avatar_url = user_info.get("picture", "")
     elif provider == "github":
         user_info = await get_github_user_info(code)
         provider_uid = str(user_info.get("id", ""))
         email = user_info.get("email", "")
         full_name = user_info.get("name") or user_info.get("login", "")
+        avatar_url = user_info.get("avatar_url", "")
     else:
         raise BadRequestException(f"Unsupported provider: {provider}")
 
@@ -105,6 +107,10 @@ async def get_or_create_oauth_user(
     if oauth_record:
         result = await db.execute(select(User).where(User.id == oauth_record.user_id))
         user = result.scalar_one()
+        if not user.avatar_url and avatar_url:
+            user.avatar_url = avatar_url
+            await db.commit()
+            await db.refresh(user)
         return _build_tokens(user)
 
     # Check if user with this email already exists
@@ -112,9 +118,11 @@ async def get_or_create_oauth_user(
     user = result.scalar_one_or_none()
 
     if not user:
-        user = User(email=email, full_name=full_name)
+        user = User(email=email, full_name=full_name, avatar_url=avatar_url or None)
         db.add(user)
         await db.flush()
+    elif not user.avatar_url and avatar_url:
+        user.avatar_url = avatar_url
 
     oauth_link = UserOAuth(
         user_id=user.id,

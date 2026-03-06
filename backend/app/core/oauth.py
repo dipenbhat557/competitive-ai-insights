@@ -14,7 +14,7 @@ async def get_google_user_info(code: str) -> dict[str, Any]:
                 "code": code,
                 "client_id": settings.GOOGLE_CLIENT_ID,
                 "client_secret": settings.GOOGLE_CLIENT_SECRET,
-                "redirect_uri": f"{settings.FRONTEND_URL}/auth/google/callback",
+                "redirect_uri": "http://localhost:8000/api/v1/auth/oauth/google/callback",
                 "grant_type": "authorization_code",
             },
         )
