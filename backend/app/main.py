@@ -19,9 +19,16 @@ async def lifespan(app: FastAPI):
 
 app = FastAPI(title="CodePulse AI", version="1.0.0", lifespan=lifespan)
 
+# FRONTEND_URL accepts either a single URL (legacy) or a comma-separated list.
+# Vercel preview deploys are matched by regex so PRs work without env churn.
+allow_origins = [
+    o.strip() for o in (settings.FRONTEND_URL or "").split(",") if o.strip()
+]
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[settings.FRONTEND_URL],
+    allow_origins=allow_origins,
+    allow_origin_regex=r"^https://([a-z0-9-]+\.)?vercel\.app$",
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
