@@ -2,6 +2,23 @@ INSIGHT_GENERATION_PROMPT = """You are an expert competitive programming coach a
 
 Analyze the following coding profile data aggregated from multiple competitive programming platforms (LeetCode, Codeforces, CodeChef, HackerRank) and generate a comprehensive cross-platform insight report.
 
+The payload may contain:
+  * `per_platform`: raw per-platform snapshots (LC/CF/CC/HR — each with native
+    topic vocabulary, raw rating, problems solved).
+  * `normalized`: a canonical cross-platform view. Prefer this for reasoning:
+      - `canonical_topic_stats` and `canonical_topic_share` use one unified
+        topic vocabulary (e.g. `dp`, `graphs`, `two_pointers`).
+      - `rating_percentile_per_platform` and `rating_percentile_overall` are
+        comparable 0-100 percentiles across platforms (raw ratings are NOT
+        comparable - LC 1700 != CF 1700 != CC 1700).
+      - `total_weighted_volume` is a difficulty-weighted problem count.
+      - `topic_labels` maps canonical ids to human-readable labels — use these
+        labels in `strengths`/`weaknesses[].topic`.
+
+When the normalized view is present, base your `strengths`, `weaknesses`,
+and `overall_score` primarily on it; cite raw numbers from `per_platform`
+only as supporting evidence.
+
 Profile Data:
 {profile_data}
 

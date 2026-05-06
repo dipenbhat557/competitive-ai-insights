@@ -69,12 +69,32 @@ class ProfileAggregator:
 
     @staticmethod
     def combine_results(profiles: list[ScrapedProfile]) -> dict:
-        """Combine results from multiple platforms into a summary dict."""
+        """Combine results from multiple platforms into a summary dict.
+
+        Returns both the legacy raw shape (for backward-compat) and a
+        ``normalized`` view produced by Normalizer.aggregate.
+        """
+        from app.services.normalizer import Normalizer
+
         total_problems = sum(p.problems_solved for p in profiles)
         ratings = {p.platform: p.contest_rating for p in profiles if p.contest_rating is not None}
         merged_topics = ProfileAggregator.merge_topic_stats(profiles)
 
+        snapshot_dicts = [
+            {
+                "platform": p.platform,
+                "username": p.username,
+                "problems_solved": p.problems_solved,
+                "contest_rating": p.contest_rating,
+                "topic_stats": p.topic_stats,
+                "raw_data": p.raw_data,
+            }
+            for p in profiles
+        ]
+        normalized = Normalizer.to_dict(Normalizer.aggregate(snapshot_dicts))
+
         return {
+            # legacy fields
             "total_problems_solved": total_problems,
             "contest_ratings": ratings,
             "merged_topic_stats": merged_topics,
@@ -87,4 +107,6 @@ class ProfileAggregator:
                 }
                 for p in profiles
             },
+            # canonical view used downstream
+            "normalized": normalized,
         }

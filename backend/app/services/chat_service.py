@@ -11,6 +11,7 @@ from app.models.insight import InsightReport
 from app.models.profile import CodingProfile, PlatformSnapshot
 from app.models.user import User
 from app.services.ai.chat_engine import ChatEngine
+from app.services.normalizer import Normalizer
 
 
 def _build_profile_context(
@@ -63,6 +64,45 @@ def _build_profile_context(
                 parts.append(f"  Weakest Topics: {', '.join(f'{t}({c})' for t, c in bottom)}")
 
     parts.append(f"\nTotal Problems Across All Platforms: {total_solved}")
+
+    # Canonical cross-platform view (single vocabulary, percentile-based ratings).
+    snapshot_dicts = []
+    for profile in profiles:
+        snap = next((s for s in snapshots if s.profile_id == profile.id), None)
+        if not snap:
+            continue
+        snapshot_dicts.append({
+            "platform": profile.platform,
+            "username": profile.platform_username,
+            "problems_solved": snap.problems_solved,
+            "contest_rating": snap.contest_rating,
+            "topic_stats": snap.topic_stats,
+            "raw_data": snap.raw_data,
+        })
+
+    if snapshot_dicts:
+        agg = Normalizer.aggregate(snapshot_dicts)
+        parts.append("\n--- CANONICAL CROSS-PLATFORM VIEW ---")
+        parts.append(f"Weighted problem volume: {agg.total_weighted_volume}")
+        if agg.rating_percentile_overall is not None:
+            parts.append(
+                f"Overall rating percentile: {agg.rating_percentile_overall}"
+                f" (per platform: {agg.rating_percentile_per_platform})"
+            )
+        if agg.canonical_topic_stats:
+            ranked = sorted(agg.canonical_topic_stats.items(), key=lambda x: -x[1])
+            top = ranked[:8]
+            parts.append(
+                "Canonical top topics: "
+                + ", ".join(f"{agg.label_for.get(t, t)}({c})" for t, c in top)
+            )
+            if agg.coverage:
+                parts.append(f"Topic coverage: {agg.coverage} canonical buckets touched")
+        if agg.difficulty_breakdown and any(agg.difficulty_breakdown.values()):
+            parts.append(
+                "Difficulty mix (combined): "
+                + ", ".join(f"{k}:{v}" for k, v in agg.difficulty_breakdown.items() if v)
+            )
 
     # AI insight report if available
     if report:

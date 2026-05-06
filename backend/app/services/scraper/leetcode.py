@@ -74,15 +74,20 @@ class LeetCodeScraper(AbstractPlatformScraper):
             )
             calendar_data = calendar_resp.json()
 
-        # Parse problems solved
+        # Parse problems solved + per-difficulty breakdown.
+        # acSubmissionNum is an array with entries for "All", "Easy", "Medium", "Hard".
         problems_solved = 0
+        difficulty_breakdown: dict[str, int] = {"easy": 0, "medium": 0, "hard": 0}
         matched_user = profile_data.get("data", {}).get("matchedUser")
         if matched_user:
             ac_stats = matched_user.get("submitStatsGlobal", {}).get("acSubmissionNum", [])
             for stat in ac_stats:
-                if stat.get("difficulty") == "All":
-                    problems_solved = stat.get("count", 0)
-                    break
+                diff = (stat.get("difficulty") or "").lower()
+                count = int(stat.get("count") or 0)
+                if diff == "all":
+                    problems_solved = count
+                elif diff in difficulty_breakdown:
+                    difficulty_breakdown[diff] = count
 
         # Parse topic stats
         topic_stats = {}
@@ -126,6 +131,7 @@ class LeetCodeScraper(AbstractPlatformScraper):
                 "profile": profile_data.get("data", {}),
                 "contest": contest_data.get("data", {}),
                 "calendar": calendar_data.get("data", {}),
+                "difficulty": difficulty_breakdown,
             },
         )
 

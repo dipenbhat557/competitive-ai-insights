@@ -40,3 +40,32 @@ class ApplicationResponse(BaseModel):
     ai_match_score: Optional[float] = None
     ai_match_reason: Optional[str] = None
     created_at: datetime
+
+
+class ExternalJobResponse(BaseModel):
+    """A live job posting fetched from an external public job board."""
+    source: str
+    source_id: str
+    title: str
+    company: str
+    description: str
+    required_skills: list[str] = []
+    location: Optional[str] = None
+    apply_url: Optional[str] = None
+    posted_at: Optional[str] = None
+
+
+class JobMatchResponse(BaseModel):
+    """A scored job match for the current user."""
+    job_id: Optional[UUID] = None  # null for external (non-DB) jobs
+    source: str                     # "internal" | "remoteok" | "greenhouse:<board>"
+    title: str
+    company: str
+    description: str
+    required_skills: list[str] = []
+    location: Optional[str] = None
+    apply_url: Optional[str] = None
+    match_score: float
+    reasoning: str
+    skill_gaps: list[str] = []
+    highlights: list[str] = []

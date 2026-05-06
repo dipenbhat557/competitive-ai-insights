@@ -1,6 +1,7 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { useChat } from '@/lib/hooks/useChat'
 import ChatWindow from '@/components/chat/ChatWindow'
 import Button from '@/components/ui/Button'
@@ -9,6 +10,31 @@ import Card from '@/components/ui/Card'
 export default function ChatPage() {
   const { sessions, activeSession, messages, isLoading, createSession, selectSession, sendMessage } = useChat()
   const [showSessions, setShowSessions] = useState(false)
+  const searchParams = useSearchParams()
+  const router = useRouter()
+  const deeplinkSessionId = searchParams.get('session')
+  const kickoff = searchParams.get('kickoff')
+  const kickoffSentRef = useRef<string | null>(null)
+
+  // Deeplink: when arriving via /dashboard/chat?session=<id>, select that session.
+  useEffect(() => {
+    if (!deeplinkSessionId) return
+    if (activeSession === deeplinkSessionId) return
+    selectSession(deeplinkSessionId)
+  }, [deeplinkSessionId, activeSession, selectSession])
+
+  // Kickoff: when the page is opened with ?kickoff=<text>, send that as the
+  // first user message exactly once, then strip it from the URL so reload /
+  // back-nav don't replay it.
+  useEffect(() => {
+    if (!kickoff || !deeplinkSessionId) return
+    if (activeSession !== deeplinkSessionId) return
+    if (kickoffSentRef.current === deeplinkSessionId) return
+    if (messages.length > 0) return
+    kickoffSentRef.current = deeplinkSessionId
+    sendMessage(kickoff)
+    router.replace(`/dashboard/chat?session=${deeplinkSessionId}`)
+  }, [activeSession, deeplinkSessionId, kickoff, messages.length, sendMessage, router])
 
   return (
     <div className="space-y-4 sm:space-y-6">

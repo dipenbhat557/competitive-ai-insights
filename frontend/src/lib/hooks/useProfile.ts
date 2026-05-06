@@ -2,18 +2,24 @@
 
 import { useState, useEffect, useCallback } from 'react'
 import { apiClient } from '@/lib/api-client'
-import type { CodingProfile, PlatformSnapshot } from '@/lib/types'
+import type { CodingProfile, NormalizedAggregate, PlatformSnapshot } from '@/lib/types'
 
 export function useProfile() {
   const [profiles, setProfiles] = useState<CodingProfile[]>([])
   const [latestSnapshots, setLatestSnapshots] = useState<PlatformSnapshot[]>([])
+  const [normalized, setNormalized] = useState<NormalizedAggregate | null>(null)
   const [isLoading, setIsLoading] = useState(false)
 
   const fetchProfiles = useCallback(async () => {
     try {
-      const data = await apiClient<{ profiles: CodingProfile[]; snapshots: PlatformSnapshot[] }>('/api/v1/profiles')
+      const data = await apiClient<{
+        profiles: CodingProfile[]
+        snapshots: PlatformSnapshot[]
+        normalized: NormalizedAggregate | null
+      }>('/api/v1/profiles')
       setProfiles(data.profiles)
       setLatestSnapshots(data.snapshots)
+      setNormalized(data.normalized)
     } catch {
       // Not logged in or no profiles
     }
@@ -56,5 +62,5 @@ export function useProfile() {
     }
   }
 
-  return { profiles, latestSnapshots, isLoading, linkProfile, unlinkProfile, scrapeAll, fetchProfiles }
+  return { profiles, latestSnapshots, normalized, isLoading, linkProfile, unlinkProfile, scrapeAll, fetchProfiles }
 }

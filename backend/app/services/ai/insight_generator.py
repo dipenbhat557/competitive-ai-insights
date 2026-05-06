@@ -11,17 +11,28 @@ class InsightGenerator:
     def __init__(self):
         self.client = GeminiClient()
 
-    async def generate(self, profile_snapshots: list[dict[str, Any]]) -> dict[str, Any]:
+    async def generate(
+        self,
+        profile_snapshots: list[dict[str, Any]],
+        normalized: dict[str, Any] | None = None,
+    ) -> dict[str, Any]:
         """
         Generate insights from aggregated profile data.
 
         Args:
-            profile_snapshots: list of dicts with platform data.
+            profile_snapshots: raw per-platform snapshot dicts (for transparency).
+            normalized: optional canonical view from Normalizer.aggregate
+                (canonical topics, percentile ratings, weighted volume). When
+                provided, the model is asked to reason over the canonical view
+                and treat the per-platform data as supporting evidence.
 
         Returns:
             dict with keys: strengths, weaknesses, career_recs, roadmap, overall_score, summary_text
         """
-        profile_data_str = json.dumps(profile_snapshots, indent=2, default=str)
+        payload: dict[str, Any] = {"per_platform": profile_snapshots}
+        if normalized is not None:
+            payload["normalized"] = normalized
+        profile_data_str = json.dumps(payload, indent=2, default=str)
         prompt = INSIGHT_GENERATION_PROMPT.format(profile_data=profile_data_str)
 
         response_text = await self.client.generate_content(prompt)

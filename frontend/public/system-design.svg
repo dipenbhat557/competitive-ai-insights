@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1180" font-family="Arial, Helvetica, sans-serif" font-size="14">
+  <!-- Background -->
+  <rect width="1600" height="1180" fill="#ffffff"/>
+
+  <!-- Title -->
+  <text x="800" y="40" text-anchor="middle" font-size="22" font-weight="bold" fill="#000000">CodePulse — System Architecture</text>
+  <text x="800" y="62" text-anchor="middle" font-size="13" fill="#000000">AI-Powered Platform for Multi-Platform Competitive Programming Insights, Skill Assessment &amp; Job Matching</text>
+
+  <!-- ============ LAYER 1: CLIENT ============ -->
+  <text x="40" y="110" font-size="13" font-weight="bold" fill="#000000">CLIENT LAYER</text>
+  <line x1="40" y1="118" x2="1560" y2="118" stroke="#000000" stroke-width="1"/>
+
+  <rect x="650" y="135" width="300" height="60" fill="#ffffff" stroke="#000000" stroke-width="2"/>
+  <text x="800" y="160" text-anchor="middle" font-size="15" font-weight="bold" fill="#000000">User (Browser / Device)</text>
+  <text x="800" y="180" text-anchor="middle" font-size="12" fill="#000000">Students · Developers · Recruiters</text>
+
+  <!-- Arrow Client -> Frontend -->
+  <line x1="800" y1="195" x2="800" y2="235" stroke="#000000" stroke-width="2"/>
+  <polygon points="800,245 794,233 806,233" fill="#000000"/>
+
+  <!-- ============ LAYER 2: FRONTEND ============ -->
+  <text x="40" y="270" font-size="13" font-weight="bold" fill="#000000">PRESENTATION LAYER — Next.js 15 (App Router) + Tailwind CSS · Vercel</text>
+  <line x1="40" y1="278" x2="1560" y2="278" stroke="#000000" stroke-width="1"/>
+
+  <rect x="60" y="295" width="1480" height="90" fill="#ffffff" stroke="#000000" stroke-width="2"/>
+
+  <rect x="80" y="315" width="180" height="55" fill="#ffffff" stroke="#000000" stroke-width="1.5"/>
+  <text x="170" y="338" text-anchor="middle" font-weight="bold" fill="#000000">Dashboard</text>
+  <text x="170" y="358" text-anchor="middle" font-size="11" fill="#000000">Profile Snapshot</text>
+
+  <rect x="280" y="315" width="180" height="55" fill="#ffffff" stroke="#000000" stroke-width="1.5"/>
+  <text x="370" y="338" text-anchor="middle" font-weight="bold" fill="#000000">AI Insights</text>
+  <text x="370" y="358" text-anchor="middle" font-size="11" fill="#000000">Reports &amp; Analytics</text>
+
+  <rect x="480" y="315" width="180" height="55" fill="#ffffff" stroke="#000000" stroke-width="1.5"/>
+  <text x="570" y="338" text-anchor="middle" font-weight="bold" fill="#000000">AI Chat Mentor</text>
+  <text x="570" y="358" text-anchor="middle" font-size="11" fill="#000000">Conversational Q&amp;A</text>
+
+  <rect x="680" y="315" width="180" height="55" fill="#ffffff" stroke="#000000" stroke-width="1.5"/>
+  <text x="770" y="338" text-anchor="middle" font-weight="bold" fill="#000000">Assessments</text>
+  <text x="770" y="358" text-anchor="middle" font-size="11" fill="#000000">Coding Tests</text>
+
+  <rect x="880" y="315" width="180" height="55" fill="#ffffff" stroke="#000000" stroke-width="1.5"/>
+  <text x="970" y="338" text-anchor="middle" font-weight="bold" fill="#000000">Jobs / Matches</text>
+  <text x="970" y="358" text-anchor="middle" font-size="11" fill="#000000">Personalised Feed</text>
+
+  <rect x="1080" y="315" width="180" height="55" fill="#ffffff" stroke="#000000" stroke-width="1.5"/>
+  <text x="1170" y="338" text-anchor="middle" font-weight="bold" fill="#000000">Companies</text>
+  <text x="1170" y="358" text-anchor="middle" font-size="11" fill="#000000">Recruiter Portal</text>
+
+  <rect x="1280" y="315" width="240" height="55" fill="#ffffff" stroke="#000000" stroke-width="1.5"/>
+  <text x="1400" y="338" text-anchor="middle" font-weight="bold" fill="#000000">Profile / Settings / Auth UI</text>
+  <text x="1400" y="358" text-anchor="middle" font-size="11" fill="#000000">Login · OAuth · Linked Accounts</text>
+
+  <!-- Arrow Frontend -> API Gateway -->
+  <line x1="800" y1="385" x2="800" y2="425" stroke="#000000" stroke-width="2"/>
+  <polygon points="800,435 794,423 806,423" fill="#000000"/>
+  <text x="815" y="412" font-size="11" fill="#000000">HTTPS · REST / JSON</text>
+
+  <!-- ============ LAYER 3: API GATEWAY / AUTH ============ -->
+  <text x="40" y="460" font-size="13" font-weight="bold" fill="#000000">API GATEWAY &amp; AUTHENTICATION</text>
+  <line x1="40" y1="468" x2="1560" y2="468" stroke="#000000" stroke-width="1"/>
+
+  <rect x="60" y="485" width="1480" height="80" fill="#ffffff" stroke="#000000" stroke-width="2"/>
+
+  <rect x="80" y="500" width="280" height="50" fill="#ffffff" stroke="#000000" stroke-width="1.5"/>
+  <text x="220" y="520" text-anchor="middle" font-weight="bold" fill="#000000">FastAPI Router</text>
+  <text x="220" y="540" text-anchor="middle" font-size="11" fill="#000000">CORS · Rate Limit · Validation</text>
+
+  <rect x="380" y="500" width="280" height="50" fill="#ffffff" stroke="#000000" stroke-width="1.5"/>
+  <text x="520" y="520" text-anchor="middle" font-weight="bold" fill="#000000">JWT Auth Middleware</text>
+  <text x="520" y="540" text-anchor="middle" font-size="11" fill="#000000">Access (15m) + Refresh (7d)</text>
+
+  <rect x="680" y="500" width="280" height="50" fill="#ffffff" stroke="#000000" stroke-width="1.5"/>
+  <text x="820" y="520" text-anchor="middle" font-weight="bold" fill="#000000">OAuth 2.0 Provider</text>
+  <text x="820" y="540" text-anchor="middle" font-size="11" fill="#000000">Google · GitHub</text>
+
+  <rect x="980" y="500" width="260" height="50" fill="#ffffff" stroke="#000000" stroke-width="1.5"/>
+  <text x="1110" y="520" text-anchor="middle" font-weight="bold" fill="#000000">Request Router / RBAC</text>
+  <text x="1110" y="540" text-anchor="middle" font-size="11" fill="#000000">User · Recruiter · Admin</text>
+
+  <rect x="1260" y="500" width="260" height="50" fill="#ffffff" stroke="#000000" stroke-width="1.5"/>
+  <text x="1390" y="520" text-anchor="middle" font-weight="bold" fill="#000000">Logging / Telemetry</text>
+  <text x="1390" y="540" text-anchor="middle" font-size="11" fill="#000000">Audit · Errors · Metrics</text>
+
+  <!-- Arrows down to service layer -->
+  <line x1="220" y1="565" x2="220" y2="610" stroke="#000000" stroke-width="2"/>
+  <polygon points="220,620 214,608 226,608" fill="#000000"/>
+  <line x1="520" y1="565" x2="520" y2="610" stroke="#000000" stroke-width="2"/>
+  <polygon points="520,620 514,608 526,608" fill="#000000"/>
+  <line x1="820" y1="565" x2="820" y2="610" stroke="#000000" stroke-width="2"/>
+  <polygon points="820,620 814,608 826,608" fill="#000000"/>
+  <line x1="1110" y1="565" x2="1110" y2="610" stroke="#000000" stroke-width="2"/>
+  <polygon points="1110,620 1104,608 1116,608" fill="#000000"/>
+  <line x1="1390" y1="565" x2="1390" y2="610" stroke="#000000" stroke-width="2"/>
+  <polygon points="1390,620 1384,608 1396,608" fill="#000000"/>
+
+  <!-- ============ LAYER 4: BUSINESS / SERVICE LAYER ============ -->
+  <text x="40" y="650" font-size="13" font-weight="bold" fill="#000000">BUSINESS LOGIC LAYER — FastAPI Services (Python · SQLAlchemy Async)</text>
+  <line x1="40" y1="658" x2="1560" y2="658" stroke="#000000" stroke-width="1"/>
+
+  <!-- Profile Aggregator service block -->
+  <rect x="60" y="680" width="360" height="240" fill="#ffffff" stroke="#000000" stroke-width="2"/>
+  <text x="240" y="705" text-anchor="middle" font-weight="bold" font-size="15" fill="#000000">Profile Aggregator</text>
+  <text x="240" y="722" text-anchor="middle" font-size="11" fill="#000000">Scheduled scrapers · Snapshot service</text>
+
+  <rect x="80" y="740" width="150" height="40" fill="#ffffff" stroke="#000000" stroke-width="1.2"/>
+  <text x="155" y="765" text-anchor="middle" font-size="12" fill="#000000">LeetCode Scraper</text>
+
+  <rect x="250" y="740" width="150" height="40" fill="#ffffff" stroke="#000000" stroke-width="1.2"/>
+  <text x="325" y="765" text-anchor="middle" font-size="12" fill="#000000">Codeforces Scraper</text>
+
+  <rect x="80" y="790" width="150" height="40" fill="#ffffff" stroke="#000000" stroke-width="1.2"/>
+  <text x="155" y="815" text-anchor="middle" font-size="12" fill="#000000">CodeChef Scraper</text>
+
+  <rect x="250" y="790" width="150" height="40" fill="#ffffff" stroke="#000000" stroke-width="1.2"/>
+  <text x="325" y="815" text-anchor="middle" font-size="12" fill="#000000">HackerRank Scraper</text>
+
+  <rect x="80" y="845" width="320" height="55" fill="#ffffff" stroke="#000000" stroke-width="1.2"/>
+  <text x="240" y="867" text-anchor="middle" font-weight="bold" font-size="12" fill="#000000">Normaliser &amp; Snapshot Builder</text>
+  <text x="240" y="885" text-anchor="middle" font-size="11" fill="#000000">Unified schema · Diff · Time-series snapshots</text>
+
+  <!-- AI Engine block -->
+  <rect x="450" y="680" width="420" height="240" fill="#ffffff" stroke="#000000" stroke-width="2"/>
+  <text x="660" y="705" text-anchor="middle" font-weight="bold" font-size="15" fill="#000000">AI Engine (Gemini 2.0 Flash)</text>
+  <text x="660" y="722" text-anchor="middle" font-size="11" fill="#000000">Prompt orchestration · Context windowing</text>
+
+  <rect x="470" y="740" width="180" height="50" fill="#ffffff" stroke="#000000" stroke-width="1.2"/>
+  <text x="560" y="760" text-anchor="middle" font-weight="bold" font-size="12" fill="#000000">Insight Generator</text>
+  <text x="560" y="778" text-anchor="middle" font-size="11" fill="#000000">Strengths · Gaps · Plans</text>
+
+  <rect x="670" y="740" width="180" height="50" fill="#ffffff" stroke="#000000" stroke-width="1.2"/>
+  <text x="760" y="760" text-anchor="middle" font-weight="bold" font-size="12" fill="#000000">Chat Engine</text>
+  <text x="760" y="778" text-anchor="middle" font-size="11" fill="#000000">RAG over user profile</text>
+
+  <rect x="470" y="800" width="180" height="50" fill="#ffffff" stroke="#000000" stroke-width="1.2"/>
+  <text x="560" y="820" text-anchor="middle" font-weight="bold" font-size="12" fill="#000000">Skill Matcher</text>
+  <text x="560" y="838" text-anchor="middle" font-size="11" fill="#000000">Profile ↔ Job fit score</text>
+
+  <rect x="670" y="800" width="180" height="50" fill="#ffffff" stroke="#000000" stroke-width="1.2"/>
+  <text x="760" y="820" text-anchor="middle" font-weight="bold" font-size="12" fill="#000000">Prompt Library</text>
+  <text x="760" y="838" text-anchor="middle" font-size="11" fill="#000000">Versioned templates</text>
+
+  <rect x="470" y="860" width="380" height="45" fill="#ffffff" stroke="#000000" stroke-width="1.2"/>
+  <text x="660" y="880" text-anchor="middle" font-weight="bold" font-size="12" fill="#000000">Gemini Client (google-generativeai)</text>
+  <text x="660" y="897" text-anchor="middle" font-size="11" fill="#000000">Retry · Token accounting · Safety filters</text>
+
+  <!-- Assessment engine -->
+  <rect x="900" y="680" width="320" height="115" fill="#ffffff" stroke="#000000" stroke-width="2"/>
+  <text x="1060" y="705" text-anchor="middle" font-weight="bold" font-size="15" fill="#000000">Assessment Engine</text>
+  <rect x="920" y="720" width="280" height="30" fill="#ffffff" stroke="#000000" stroke-width="1.2"/>
+  <text x="1060" y="740" text-anchor="middle" font-size="12" fill="#000000">Question Bank · Test Generator</text>
+  <rect x="920" y="755" width="280" height="30" fill="#ffffff" stroke="#000000" stroke-width="1.2"/>
+  <text x="1060" y="775" text-anchor="middle" font-size="12" fill="#000000">Submission Grader · Score Recorder</text>
+
+  <!-- Recruitment / Job Matching -->
+  <rect x="900" y="805" width="320" height="115" fill="#ffffff" stroke="#000000" stroke-width="2"/>
+  <text x="1060" y="830" text-anchor="middle" font-weight="bold" font-size="15" fill="#000000">Recruitment &amp; Job Matching</text>
+  <rect x="920" y="845" width="280" height="30" fill="#ffffff" stroke="#000000" stroke-width="1.2"/>
+  <text x="1060" y="865" text-anchor="middle" font-size="12" fill="#000000">Job Board · Application Tracker</text>
+  <rect x="920" y="880" width="280" height="30" fill="#ffffff" stroke="#000000" stroke-width="1.2"/>
+  <text x="1060" y="900" text-anchor="middle" font-size="12" fill="#000000">Recruiter Search · Shortlist</text>
+
+  <!-- Notification / User services -->
+  <rect x="1250" y="680" width="290" height="115" fill="#ffffff" stroke="#000000" stroke-width="2"/>
+  <text x="1395" y="705" text-anchor="middle" font-weight="bold" font-size="15" fill="#000000">User &amp; Account Service</text>
+  <rect x="1270" y="720" width="250" height="30" fill="#ffffff" stroke="#000000" stroke-width="1.2"/>
+  <text x="1395" y="740" text-anchor="middle" font-size="12" fill="#000000">Profile · Linked Coding Handles</text>
+  <rect x="1270" y="755" width="250" height="30" fill="#ffffff" stroke="#000000" stroke-width="1.2"/>
+  <text x="1395" y="775" text-anchor="middle" font-size="12" fill="#000000">Preferences · Notifications</text>
+
+  <rect x="1250" y="805" width="290" height="115" fill="#ffffff" stroke="#000000" stroke-width="2"/>
+  <text x="1395" y="830" text-anchor="middle" font-weight="bold" font-size="15" fill="#000000">Background Workers</text>
+  <rect x="1270" y="845" width="250" height="30" fill="#ffffff" stroke="#000000" stroke-width="1.2"/>
+  <text x="1395" y="865" text-anchor="middle" font-size="12" fill="#000000">Periodic Scrape · Snapshot Diff</text>
+  <rect x="1270" y="880" width="250" height="30" fill="#ffffff" stroke="#000000" stroke-width="1.2"/>
+  <text x="1395" y="900" text-anchor="middle" font-size="12" fill="#000000">Insight Refresh · Job Re-rank</text>
+
+  <!-- Inter-service flow arrow: Aggregator -> AI Engine -->
+  <line x1="420" y1="800" x2="450" y2="800" stroke="#000000" stroke-width="2"/>
+  <polygon points="460,800 448,794 448,806" fill="#000000"/>
+  <text x="423" y="793" font-size="10" fill="#000000">profile</text>
+
+  <!-- AI Engine -> Skill Matcher -> Job Matching -->
+  <line x1="870" y1="825" x2="900" y2="825" stroke="#000000" stroke-width="2"/>
+  <polygon points="910,825 898,819 898,831" fill="#000000"/>
+  <text x="873" y="818" font-size="10" fill="#000000">match</text>
+
+  <!-- Assessment -> AI for grading hints -->
+  <line x1="900" y1="730" x2="870" y2="760" stroke="#000000" stroke-width="2"/>
+  <polygon points="862,768 866,754 874,762" fill="#000000"/>
+
+  <!-- Arrows down to data layer -->
+  <line x1="240" y1="920" x2="240" y2="960" stroke="#000000" stroke-width="2"/>
+  <polygon points="240,970 234,958 246,958" fill="#000000"/>
+  <line x1="660" y1="920" x2="660" y2="960" stroke="#000000" stroke-width="2"/>
+  <polygon points="660,970 654,958 666,958" fill="#000000"/>
+  <line x1="1060" y1="920" x2="1060" y2="960" stroke="#000000" stroke-width="2"/>
+  <polygon points="1060,970 1054,958 1066,958" fill="#000000"/>
+  <line x1="1395" y1="920" x2="1395" y2="960" stroke="#000000" stroke-width="2"/>
+  <polygon points="1395,970 1389,958 1401,958" fill="#000000"/>
+
+  <!-- ============ LAYER 5: DATA LAYER ============ -->
+  <text x="40" y="1000" font-size="13" font-weight="bold" fill="#000000">DATA LAYER — PostgreSQL (SQLAlchemy Async · Alembic Migrations)</text>
+  <line x1="40" y1="1008" x2="1560" y2="1008" stroke="#000000" stroke-width="1"/>
+
+  <rect x="60" y="1025" width="1480" height="80" fill="#ffffff" stroke="#000000" stroke-width="2"/>
+
+  <rect x="80" y="1040" width="220" height="50" fill="#ffffff" stroke="#000000" stroke-width="1.2"/>
+  <text x="190" y="1060" text-anchor="middle" font-weight="bold" font-size="12" fill="#000000">Identity</text>
+  <text x="190" y="1078" text-anchor="middle" font-size="11" fill="#000000">users · user_oauth</text>
+
+  <rect x="320" y="1040" width="240" height="50" fill="#ffffff" stroke="#000000" stroke-width="1.2"/>
+  <text x="440" y="1060" text-anchor="middle" font-weight="bold" font-size="12" fill="#000000">Coding Profiles</text>
+  <text x="440" y="1078" text-anchor="middle" font-size="11" fill="#000000">coding_profiles · platform_snapshots</text>
+
+  <rect x="580" y="1040" width="240" height="50" fill="#ffffff" stroke="#000000" stroke-width="1.2"/>
+  <text x="700" y="1060" text-anchor="middle" font-weight="bold" font-size="12" fill="#000000">AI Outputs</text>
+  <text x="700" y="1078" text-anchor="middle" font-size="11" fill="#000000">insight_reports · chat_sessions · messages</text>
+
+  <rect x="840" y="1040" width="240" height="50" fill="#ffffff" stroke="#000000" stroke-width="1.2"/>
+  <text x="960" y="1060" text-anchor="middle" font-weight="bold" font-size="12" fill="#000000">Assessments</text>
+  <text x="960" y="1078" text-anchor="middle" font-size="11" fill="#000000">assessments · questions · submissions</text>
+
+  <rect x="1100" y="1040" width="200" height="50" fill="#ffffff" stroke="#000000" stroke-width="1.2"/>
+  <text x="1200" y="1060" text-anchor="middle" font-weight="bold" font-size="12" fill="#000000">Recruitment</text>
+  <text x="1200" y="1078" text-anchor="middle" font-size="11" fill="#000000">jobs · applications</text>
+
+  <rect x="1320" y="1040" width="200" height="50" fill="#ffffff" stroke="#000000" stroke-width="1.2"/>
+  <text x="1420" y="1060" text-anchor="middle" font-weight="bold" font-size="12" fill="#000000">Companies</text>
+  <text x="1420" y="1078" text-anchor="middle" font-size="11" fill="#000000">companies · recruiters</text>
+
+  <!-- ============ EXTERNAL INTEGRATIONS (right side panel) ============ -->
+  <text x="40" y="1140" font-size="13" font-weight="bold" fill="#000000">EXTERNAL INTEGRATIONS</text>
+  <line x1="40" y1="1148" x2="1560" y2="1148" stroke="#000000" stroke-width="1"/>
+
+  <rect x="60" y="1155" width="240" height="20" fill="#ffffff" stroke="#000000" stroke-width="1"/>
+  <text x="180" y="1170" text-anchor="middle" font-size="11" fill="#000000">Google Gemini API</text>
+
+  <rect x="320" y="1155" width="240" height="20" fill="#ffffff" stroke="#000000" stroke-width="1"/>
+  <text x="440" y="1170" text-anchor="middle" font-size="11" fill="#000000">OAuth (Google · GitHub)</text>
+
+  <rect x="580" y="1155" width="320" height="20" fill="#ffffff" stroke="#000000" stroke-width="1"/>
+  <text x="740" y="1170" text-anchor="middle" font-size="11" fill="#000000">Coding Platforms (LC · CF · CC · HR)</text>
+
+  <rect x="920" y="1155" width="280" height="20" fill="#ffffff" stroke="#000000" stroke-width="1"/>
+  <text x="1060" y="1170" text-anchor="middle" font-size="11" fill="#000000">Email / Notification Provider</text>
+
+  <rect x="1220" y="1155" width="300" height="20" fill="#ffffff" stroke="#000000" stroke-width="1"/>
+  <text x="1370" y="1170" text-anchor="middle" font-size="11" fill="#000000">Vercel (Frontend) · Docker (Backend)</text>
+
+</svg>

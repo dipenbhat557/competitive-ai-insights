@@ -8,6 +8,7 @@ import DifficultyChart from '@/components/dashboard/DifficultyChart'
 import TopicChart from '@/components/dashboard/TopicChart'
 import TopicRadar from '@/components/dashboard/TopicRadar'
 import ActivityHeatmap from '@/components/dashboard/ActivityHeatmap'
+import SkillProfile from '@/components/dashboard/SkillProfile'
 import Card from '@/components/ui/Card'
 import Button from '@/components/ui/Button'
 import { useRouter } from 'next/navigation'
@@ -51,7 +52,7 @@ function mergeCalendars(snapshots: Array<{ submission_calendar: Record<string, n
 
 export default function DashboardPage() {
   const { user } = useAuth()
-  const { profiles, latestSnapshots, isLoading, scrapeAll } = useProfile()
+  const { profiles, latestSnapshots, normalized, isLoading, scrapeAll } = useProfile()
   const router = useRouter()
 
   const totalSolved = latestSnapshots.reduce((sum, s) => sum + (s?.problems_solved || 0), 0)
@@ -118,6 +119,11 @@ export default function DashboardPage() {
         </Card>
       ) : (
         <>
+          {/* Unified Skill Profile (cross-platform normalized view) */}
+          {normalized && normalized.platforms.length > 0 && (
+            <SkillProfile normalized={normalized} />
+          )}
+
           {/* Charts Row 1: Difficulty + Topics */}
           <div className="grid gap-4 lg:grid-cols-2">
             <DifficultyChart data={difficulty} total={totalSolved} />

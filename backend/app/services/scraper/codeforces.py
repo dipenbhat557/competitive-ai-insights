@@ -1,8 +1,10 @@
 from collections import defaultdict
+from datetime import datetime, timezone
 
 import httpx
 
 from app.services.scraper.base import AbstractPlatformScraper, ScrapedProfile
+from app.services.normalizer.ratings import cf_problem_rating_to_bucket
 
 CF_API_BASE = "https://codeforces.com/api"
 
@@ -36,6 +38,7 @@ class CodeforcesScraper(AbstractPlatformScraper):
         solved_problems = set()
         topic_counts: dict[str, int] = defaultdict(int)
         submission_calendar: dict[str, int] = defaultdict(int)
+        difficulty_breakdown: dict[str, int] = {"easy": 0, "medium": 0, "hard": 0, "expert": 0}
 
         if status_data.get("status") == "OK":
             for sub in status_data.get("result", []):
@@ -46,12 +49,18 @@ class CodeforcesScraper(AbstractPlatformScraper):
                         solved_problems.add(problem_id)
                         for tag in problem.get("tags", []):
                             topic_counts[tag] += 1
+                        bucket = cf_problem_rating_to_bucket(problem.get("rating"))
+                        difficulty_breakdown[bucket] = difficulty_breakdown.get(bucket, 0) + 1
 
-                # Build submission calendar (group by date)
+                # Build submission calendar grouped by YYYY-MM-DD (UTC).
                 creation_time = sub.get("creationTimeSeconds")
                 if creation_time:
-                    date_str = str(creation_time)
-                    submission_calendar[date_str] = submission_calendar.get(date_str, 0) + 1
+                    try:
+                        dt = datetime.fromtimestamp(int(creation_time), tz=timezone.utc)
+                        date_key = dt.strftime("%Y-%m-%d")
+                        submission_calendar[date_key] = submission_calendar.get(date_key, 0) + 1
+                    except (ValueError, OSError):
+                        pass
 
         return ScrapedProfile(
             platform="codeforces",
@@ -63,6 +72,7 @@ class CodeforcesScraper(AbstractPlatformScraper):
             raw_data={
                 "info": info_data.get("result", []),
                 "rating_history_count": len(rating_data.get("result", [])),
+                "difficulty": difficulty_breakdown,
             },
         )
 

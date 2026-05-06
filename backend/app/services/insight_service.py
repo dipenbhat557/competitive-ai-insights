@@ -7,6 +7,7 @@ from app.core.exceptions import NotFoundException
 from app.models.insight import InsightReport
 from app.models.profile import CodingProfile, PlatformSnapshot
 from app.services.ai.insight_generator import InsightGenerator
+from app.services.normalizer import Normalizer
 
 
 async def generate_insights(
@@ -50,13 +51,16 @@ async def generate_insights(
                 "contest_rating": snapshot.contest_rating,
                 "topic_stats": snapshot.topic_stats,
                 "submission_calendar": snapshot.submission_calendar,
+                "raw_data": snapshot.raw_data,
             })
 
     if not all_snapshots:
         raise NotFoundException("No scraped data found. Scrape your profiles first.")
 
+    normalized = Normalizer.to_dict(Normalizer.aggregate(all_snapshots))
+
     generator = InsightGenerator()
-    insight_data = await generator.generate(all_snapshots)
+    insight_data = await generator.generate(all_snapshots, normalized=normalized)
 
     report = InsightReport(
         user_id=user_id,

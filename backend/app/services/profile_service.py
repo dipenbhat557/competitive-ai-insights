@@ -147,19 +147,35 @@ async def get_user_profiles_with_snapshots(user_id: UUID, db: AsyncSession) -> d
         snapshot = result.scalar_one_or_none()
         if snapshot:
             snapshots.append(snapshot)
+    from app.services.normalizer import Normalizer
+
+    snapshot_dicts = []
+    norm_input = []
+    for prof, s in zip(profiles, snapshots):
+        snapshot_dicts.append({
+            "id": str(s.id),
+            "problems_solved": s.problems_solved,
+            "contest_rating": s.contest_rating,
+            "topic_stats": s.topic_stats,
+            "submission_calendar": s.submission_calendar,
+            "raw_data": s.raw_data,
+            "scraped_at": s.scraped_at.isoformat() if s.scraped_at else None,
+        })
+        norm_input.append({
+            "platform": prof.platform,
+            "username": prof.platform_username,
+            "problems_solved": s.problems_solved,
+            "contest_rating": s.contest_rating,
+            "topic_stats": s.topic_stats,
+            "raw_data": s.raw_data,
+        })
+
+    normalized = Normalizer.to_dict(Normalizer.aggregate(norm_input)) if norm_input else None
+
     return {
         "profiles": [ProfileResponse.model_validate(p) for p in profiles],
-        "snapshots": [
-            {
-                "id": str(s.id),
-                "problems_solved": s.problems_solved,
-                "contest_rating": s.contest_rating,
-                "topic_stats": s.topic_stats,
-                "submission_calendar": s.submission_calendar,
-                "scraped_at": s.scraped_at.isoformat() if s.scraped_at else None,
-            }
-            for s in snapshots
-        ],
+        "snapshots": snapshot_dicts,
+        "normalized": normalized,
     }
 
 
